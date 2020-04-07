@@ -1,38 +1,228 @@
-.App {
-  text-align: center;
+:root {
+  --teal: rgb(105, 201, 161);
+  --lgtgrn: rgb(245, 255, 213);
+  --lgtpink: rgb(226, 200, 188);
+  --white: white;
+  --medgrn: #BAC9A9;
+  --darkgrn: #697060;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+body {
+  background: url("./tree_bark.png");
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+ 
+/* .YearChooser-select {
+  color: black;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.yearChooser {
+  position: relative;
+  display: inline-block;
+  left: 700px;
+  top: -50px;
+
+} */
+
+
+
+.TitleBar {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  box-sizing: border-box;
+  padding-left: 5vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  background: var(--darkgrn);
+  opacity: .9;
+  height: 20vh;
+  font-size: 1.8em;
+  align-items: middle;
+  border-radius: 15px;
+
+}
+
+
+
+
+h1 {
+  display:block;
+  position: relative;
+  bottom: 2vh;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5em;
   color: white;
+  -webkit-text-fill-color: var(--lgtpink);
+  -webkit-text-stroke-width: 1.2px;
+  text-shadow: 2px 2px #00000065;
 }
 
-.App-link {
-  color: #61dafb;
+.output {
+  -webkit-text-fill-color: var(--darkgrn);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.yearChooser {
+  margin-left: 200px;
+}
+
+.YearChooser-select {
+  width: 125px;
+  height: 25px;
+  outline:none;
+} 
+
+
+
+ .MainContainer {
+  display: grid;
+  height: 5vh;
+ 
+  
+} 
+
+ .Country-Checkbox {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-column-gap: 5px;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: -10vh;
+  cursor: pointer;
+  font-size: 21px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  z-index: 1;
+    
+}
+
+.Country-Button {
+background-color: rgb(255, 252, 252); 
+border-radius: 15px;
+color: rgba(73, 72, 72, 0.973);
+border-width: 1.5px;
+margin-bottom: 10vh;
+padding: 5px 5px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 1.5em;
+-webkit-transition-duration: 0.4s; 
+transition-duration: 0.4s;
+}
+
+.Country-Button:hover {
+background-color: rgb(226, 200, 188);
+color: black;
+}
+
+.Country-Button:focus {
+background-color: rgb(226, 200, 188);
+outline:none;
+
+}
+
+
+h3 {
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  margin-top: 9px;
+  margin-bottom: 0px;
+  color: white;
+  font-size: larger;
+}
+
+h4 {
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  padding-left: 10px;
+  margin: 0px;
+  color: white;
+ 
+}
+
+.remove-btn {
+  font-family: 'Roboto', sans-serif;
+  border-style: solid black 1px;
+  font-size: medium;
+  margin-top: 10px;
+  background-color: rgb(255, 252, 252);
+  border-radius: 15px;
+  box-shadow: 0 6px #999;
+  outline:none;
+}
+
+.remove-btn:active {
+  background-color: rgb(226, 200, 188);
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.remove-btn:hover {
+  background-color: rgb(226, 200, 188);
+  transition: .5s;
+}
+
+
+
+.BarChart {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 5px;
+  align-items: end;
+  position: absolute;
+  bottom: 0px;
+  box-sizing: border-box;
+  height: 69vh;
+}
+
+
+.bar {
+  display: none;
+}
+
+.BarChart-Bar {
+  display: block;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  width: 8vw;
+  background-color: var(--darkgrn);
+  color: white;
+  padding-bottom: 50px;
+  padding-top: 1vh;
+  font-size: 1.7em;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden;
+  transition: height .5s,
+              padding .5s,
+              min-height .5s;   
+              
+              
+      
+
+}
+
+.BarChart-Bar:nth-child(odd) {
+  background-color: var(--teal);
+}
+
+.BarChart-Bar:hover {
+  transition: .5s;
+  padding-bottom: 65px;
+}
+
+
+.BarChart-Bar--collapsed {
+  height: 0 !important;
+  min-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
