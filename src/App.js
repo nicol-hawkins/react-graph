@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
 import './App.css';
 
+import CountryButtons from './components/CountryButtons/CountryButtons.js';
+import BarChart from './components/BarChart/BarChart.js';
+import TitleBar from './components/TitleBar/TitleBar.js';
+import RemoveButton from './components/RemoveButton/RemoveButton.js';
+import SelectYear from './components/SelectYear/SelectYear.js';
+
 
 class App extends Component {
   constructor(props){
@@ -32,18 +38,25 @@ class App extends Component {
     )
   }
 
+  onUpdateYear = (ev) => {
+    let year = ev.target.value;
+    this.setState({
+      year: year,
+    })
+  }
 
-  onChooseCountry = (country) => {
+
+  onChooseCountry = (info, index) => {
     //duplicate the two arrays
     const chosenCountries = this.state.chosenCountries.slice();
     const availableCountries = this.state.availableCountries.slice();
 
     //retrieve country of choice
-    const chosenCountry = availableCountries[country];
+    const chosenCountry = availableCountries[index];
 
     //add to chosen list
     chosenCountries.push(chosenCountry);
-    availableCountries.splice(country, 1);
+    availableCountries.splice(index, 1);
 
     //sort countries in alphabetical order
     chosenCountries.sort((a, b) => (a.country > b.country) ? 1: -1);
@@ -57,29 +70,37 @@ class App extends Component {
     })
   }
 
+  removeCountry = (index) => {
+    const chosenCountries = this.state.chosenCountries.slice();
+    const availableCountries = this.state.availableCountries.slice();
+    const chosenCountry = chosenCountries[index];
+
+    availableCountries.push(chosenCountry);
+    chosenCountries.splice(index, 1);
+    availableCountries.sort((a, b) => (a.label > b.label) ? 1: -1);
+
+    this.setState({
+      availableCountries: availableCountries,
+      chosenCountries: chosenCountries
+    });
+  };
+
 
 
 render() {
   return (
     <div className="App">
      <div className="TitleBar">
-          <div className="Main-Title">
-            <h1>Percentage of Forest Land in <br/>South American Countries: </h1>
-             <span className="output">  </span>  
-          </div>
-              <div className="drop-down">
-                  <select id="select" className="YearChooser-select">
-                      <option value="">Select Year</option>
-                      <option value="2016">2016</option>
-                      <option value="2015">2015</option>
-                      <option value="2014">2014</option>
-                      <option value="2013">2013</option>
-                      <option value="2012">2012</option>
-                      <option value="2011">2011</option>
-                      <option value="2010">2010</option> -->
-                  </select>
-                  <button className="Input">Go</button>
-             </div> 
+     <TitleBar
+        onChange={this.onUpdateYear}
+        currentYear={this.state.year}
+        year={this.state.year}>
+          <SelectYear
+            onChange={this.onUpdateYear}
+            currentYear={this.state.year}
+            value={this.state.year}>
+          </SelectYear>
+        </TitleBar>
            
     </div> 
   
@@ -87,51 +108,33 @@ render() {
   
       <div className="MainContainer">
         <div className="Country-Checkbox">
-          {/* <btn className="Country-Button"></btn> 
-          {
-          this.state.data.map((data, index) => (
-            <button key={index}className="button-primary" onClick={() => {this.onChooseCountry(index);
-            }}><span className="btn-content" tabindex="-1">
-        </span>{data.label}</button>
-           ))
-          }   */}
+        {this.state.data[this.state.year] ?
+          this.state.data[this.state.year].map((info, index)) (
+            <CountryButtons
+              onClick={() => this.onChooseCountry(info, index)}
+              text={info.Country}>
+                {info.Country}
+            </CountryButtons>
+          ): "NO DATA"
+        }
         </div>
     
 
 
         
         <div className="BarChart" id="results">
-          
-             {/* original toggle js not being used. saving for reference */}
-            {/* {
-              this.state.data.map(data => (
-              data.visible === true ? (
-                
-              <div key={data} className="bar--show bar" id={data.label} style={{height: data.percentage + "px"}}> 
-                {data.label} = 
-                {data.percentage} %
-                {console.log('label: ',data.label, 'percentage: ', data.percentage)}
-              </div>
-              ) : (
-                  null
-                )
+        {this.state.chosenCountries.map((info, index) => (
+              <BarChart 
+                className="BarChart-Bar" 
+                info={info}>
+                  <RemoveButton
+                    onClick={() => this.removeCountry(index)}>
+                  </RemoveButton>
+              </BarChart>
               ))
-            } */}
+            }
   
-           {/* generate divs with remove button */}
-            {/* {
-              this.state.chosenCountries.map((chosenCountry, index) => (
-                <div className="bar--show bar" style={{height: chosenCountry.percentage + "%"}}>
-                    
-                  <h3>{chosenCountry.label}</h3>
-                  <h4>{chosenCountry.percentage} %</h4>
-                  <button className="remove-btn" onClick={() => this.removeCountry(index)}>remove</button>
-  
-                </div>
-              ))
-            }  */}
-        
-        {/* </section>        */}
+         
       </div>
     </div>
 
